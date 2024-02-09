@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, SagaReturnType } from "redux-saga/effects";
 import { apiCall } from "../../../API";
 import {
   fetchMusicListRequest,
@@ -76,7 +76,11 @@ function* removeMusicSaga(action: PayloadAction<string>) {
   }
 }
 
-function* generateStatisticsSaga() {
+function* generateStatisticsSaga(): Generator<
+  any,
+  void,
+  SagaReturnType<typeof apiCall>
+> {
   try {
     const statisticsData = yield call(apiCall, {
       route: "/stats",

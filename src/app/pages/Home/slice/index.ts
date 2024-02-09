@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IMusics, MusicState } from "./types";
+import { IMusics, Music, MusicState } from "./types";
 
 const initialState: MusicState = {
-  musicList: [],
+  musicList: { musics: [], TotalMusics: 0 },
   isLoading: false,
   error: null,
   statistics: {
@@ -33,19 +34,22 @@ const musicSlice = createSlice({
       }
     },
     fetchMusicListSuccess: (state, action) => {
+      console.log("success payload", action.payload);
       state.musicList = action.payload;
       state.isLoading = false;
       state.error = null;
     },
     fetchMusicListFailure: (state, action) => {
+      console.log("error payload", action.payload);
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // Add
-    addMusicRequest: (state) => {
+    addMusicRequest: (state, _action: PayloadAction<Omit<Music, "_id">>) => {
       state.isLoading = true;
     },
+
     addMusicSuccess: (state, action) => {
       state.isLoading = false;
       state.musicList.musics.push(action.payload);
@@ -57,7 +61,7 @@ const musicSlice = createSlice({
     },
 
     // Update
-    updateMusicRequest: (state) => {
+    updateMusicRequest: (state, _action: PayloadAction<Music>) => {
       state.isLoading = true;
     },
     updateMusicSuccess: (state, action) => {
@@ -76,7 +80,7 @@ const musicSlice = createSlice({
     },
 
     // Remove
-    removeMusicRequest: (state) => {
+    removeMusicRequest: (state, _action: PayloadAction<string>) => {
       state.isLoading = true;
     },
     removeMusicSuccess: (state, action) => {

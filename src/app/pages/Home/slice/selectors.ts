@@ -9,6 +9,11 @@ export const selectMusicList = createSelector(
   (musicState: MusicState) => musicState.musicList.musics
 );
 
+export const selectTotalMusics = createSelector(
+  selectMusicState,
+  (musicState: MusicState) => musicState.musicList.TotalMusics
+);
+
 export const selectStatistics = createSelector(
   selectMusicState,
   (musicState: MusicState) => musicState.statistics

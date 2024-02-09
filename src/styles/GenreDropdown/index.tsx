@@ -20,6 +20,7 @@ const Select = styled.select`
   border-radius: 5px;
   border: 1px solid #ccc;
   background-color: #faebd7;
+  outline: none;
 `;
 
 const GenreDropdown: React.FC<GenreDropdownProps> = ({

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectMusicList,
   selectPage,
+  selectTotalMusics,
   selectTotalPages,
 } from "../../pages/Home/slice/selectors";
 import { fetchMusicListRequest, setPage } from "../../pages/Home/slice";
@@ -16,11 +17,11 @@ import Text from "../../../styles/Text";
 const MusicCard = () => {
   const dispatch = useDispatch();
   const musicList = useSelector(selectMusicList);
+  const TotalMusics = useSelector(selectTotalMusics);
   const currentPage = useSelector(selectPage);
   const totalPages = useSelector(selectTotalPages);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState("");
-  const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,11 +34,10 @@ const MusicCard = () => {
         })
       );
       setIsLoading(false);
-      setNoResults(musicList.length === 0);
     };
 
     fetchData();
-  }, [dispatch, currentPage, selectedGenre, musicList?.length]);
+  }, [dispatch, currentPage, selectedGenre]);
 
   const handleGenreChange = (genre: string) => {
     setSelectedGenre(genre);
@@ -56,9 +56,7 @@ const MusicCard = () => {
       />
 
       <Box>
-        {isLoading ? (
-          <LoadingAnimation />
-        ) : noResults ? (
+        {selectedGenre && TotalMusics === 0 && (
           <div
             style={{
               width: "30%",
@@ -69,17 +67,25 @@ const MusicCard = () => {
               Sorry, No results found for the selected Genre
             </Text>
           </div>
-        ) : (
-          musicList?.map((music) => (
-            <Card
-              key={music._id}
-              id={music._id}
-              title={music.title}
-              artist={music.artist}
-              album={music.album}
-              genre={music.genre}
-            />
-          ))
+        )}
+
+        {!isLoading && musicList.length === 0 && !selectedGenre && (
+          <LoadingAnimation />
+        )}
+
+        {!isLoading && musicList.length > 0 && (
+          <>
+            {musicList.map((music) => (
+              <Card
+                key={music._id}
+                id={music._id}
+                title={music.title}
+                artist={music.artist}
+                album={music.album}
+                genre={music.genre}
+              />
+            ))}
+          </>
         )}
       </Box>
 
