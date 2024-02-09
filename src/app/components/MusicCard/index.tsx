@@ -69,11 +69,11 @@ const MusicCard = () => {
           </div>
         )}
 
-        {!isLoading && musicList.length === 0 && !selectedGenre && (
+        {!isLoading && musicList?.length === 0 && !selectedGenre && (
           <LoadingAnimation />
         )}
 
-        {!isLoading && musicList.length > 0 && (
+        {!isLoading && musicList?.length > 0 && (
           <>
             {musicList.map((music) => (
               <Card

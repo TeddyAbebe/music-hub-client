@@ -20,10 +20,10 @@ const apiCall = async (config: IAPICallConfig) => {
       responseType: config.responseType || "json",
     });
 
-    if (response.statusText === "OK") {
+    if (response.status >= 200 && response.status < 300) {
       return response.data;
     } else {
-      throw new Error(response.data?.message);
+      throw new Error(response.data?.message || "Failed to fetch data");
     }
   } catch (error: any) {
     throw new Error(error);

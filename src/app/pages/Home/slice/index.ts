@@ -27,20 +27,17 @@ const musicSlice = createSlice({
     // Fetch
     fetchMusicListRequest: (state, action: PayloadAction<IMusics>) => {
       state.isLoading = true;
-
       if (action.payload) {
         state.page = action.payload.page || 1;
         state.pageSize = action.payload.pageSize || 9;
       }
     },
     fetchMusicListSuccess: (state, action) => {
-      console.log("success payload", action.payload);
       state.musicList = action.payload;
       state.isLoading = false;
       state.error = null;
     },
     fetchMusicListFailure: (state, action) => {
-      console.log("error payload", action.payload);
       state.isLoading = false;
       state.error = action.payload;
     },
